@@ -10,6 +10,10 @@
 
   <packaging>pom</packaging>
 
+  <scm>
+    <developerConnection>scm:git:https://git.souche-inc.com/components-project/components-job/component-xxl-job.git</developerConnection>
+  </scm>
+
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
@@ -30,5 +34,19 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Local Nexus Repository</name>
+      <url>https://repo.souche-inc.com/repository/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Local Nexus Repository</name>
+      <url>https://repo.souche-inc.com/repository/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
 
 </project>
