@@ -15,6 +15,7 @@
 		<module>xxl-job-admin</module>
 		<module>xxl-job-executor-samples</module>
 		<module>xxl-job-dependency-parent</module>
+		<module>xxl-job-springboot-starter</module>
 	</modules>
 
 	<properties>
