@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.souche.base-components</groupId>
+  <artifactId>xxl-job-dependency-parent</artifactId>
+  <version>2.3.0.0-SNAPSHOT</version>
+
+  <packaging>pom</packaging>
+
+  <scm>
+    <developerConnection>scm:git:https://git.souche-inc.com/components-project/components-job/component-xxl-job.git</developerConnection>
+  </scm>
+
+  <properties>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+
+      <dependency>
+        <groupId>com.souche.base-components</groupId>
+        <artifactId>xxl-job-springboot-starter</artifactId>
+        <version>2.3.0.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.souche.base-components</groupId>
+        <artifactId>xxl-job-admin</artifactId>
+        <version>2.3.0.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.souche.base-components</groupId>
+        <artifactId>xxl-job-core</artifactId>
+        <version>2.3.0.0-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus-releases</id>
+      <name>Local Nexus Repository</name>
+      <url>https://repo.souche-inc.com/repository/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Local Nexus Repository</name>
+      <url>https://repo.souche-inc.com/repository/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
+</project>

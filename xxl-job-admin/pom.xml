@@ -1,13 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.xuxueli</groupId>
-    <artifactId>xxl-job</artifactId>
-    <version>2.3.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>xxl-job-admin</artifactId>
-  <packaging>jar</packaging>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.souche.base-components</groupId>
+		<artifactId>component-xxl-job</artifactId>
+		<version>2.3.1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>xxl-job-admin</artifactId>
+	<packaging>jar</packaging>
 
   <dependencyManagement>
     <dependencies>
@@ -66,13 +66,6 @@
       <version>${mysql-connector-java.version}</version>
     </dependency>
 
-    <!-- xxl-job-core -->
-    <dependency>
-      <groupId>com.xuxueli</groupId>
-      <artifactId>xxl-job-core</artifactId>
-      <version>${project.parent.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>com.xuxueli</groupId>
       <artifactId>xxl-job-alarm-api</artifactId>
@@ -93,42 +86,62 @@
       <artifactId>xxl-job-alarm-http</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
+		<!-- xxl-job-core -->
+		<dependency>
+			<groupId>com.souche.base-components</groupId>
+			<artifactId>xxl-job-core</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 
   </dependencies>
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>${spring-boot.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- docker -->
-      <plugin>
-        <groupId>com.spotify</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>0.4.13</version>
-        <configuration>
-          <!-- made of '[a-z0-9-_.]' -->
-          <imageName>${project.artifactId}:${project.version}</imageName>
-          <dockerDirectory>${project.basedir}</dockerDirectory>
-          <resources>
-            <resource>
-              <targetPath>/</targetPath>
-              <directory>${project.build.directory}</directory>
-              <include>${project.build.finalName}.jar</include>
-            </resource>
-          </resources>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+		<plugins>
+<!--			组件化，不使用该插件打包-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<version>${spring-boot.version}</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>repackage</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+			<!-- docker -->
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.13</version>
+				<configuration>
+					<!-- made of '[a-z0-9-_.]' -->
+					<imageName>${project.artifactId}:${project.version}</imageName>
+					<dockerDirectory>${project.basedir}</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Local Nexus Repository</name>
+			<url>https://repo.souche-inc.com/repository/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>Local Nexus Repository</name>
+			<url>https://repo.souche-inc.com/repository/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
