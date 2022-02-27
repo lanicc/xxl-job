@@ -6,12 +6,13 @@
 
   <groupId>com.souche.base-components</groupId>
   <artifactId>xxl-job-dependency-parent</artifactId>
-  <version>2.3.0.0-SNAPSHOT</version>
+  <version>2.3.1.1-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
   <scm>
-    <developerConnection>scm:git:https://git.souche-inc.com/components-project/components-job/component-xxl-job.git</developerConnection>
+    <developerConnection>scm:git:https://git.souche-inc.com/components-project/components-job/component-xxl-job.git
+    </developerConnection>
   </scm>
 
   <properties>
@@ -25,19 +26,36 @@
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-springboot-starter</artifactId>
-        <version>2.3.0.0-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
 
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-admin</artifactId>
-        <version>2.3.0.0-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
 
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-core</artifactId>
-        <version>2.3.0.0-SNAPSHOT</version>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!--  alarm plugin  -->
+      <dependency>
+        <groupId>com.souche.base-components</groupId>
+        <artifactId>xxl-job-alarm-dingtalk</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.souche.base-components</groupId>
+        <artifactId>xxl-job-alarm-email</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.souche.base-components</groupId>
+        <artifactId>xxl-job-alarm-http</artifactId>
+        <version>${project.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
