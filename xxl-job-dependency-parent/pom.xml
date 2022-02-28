@@ -16,6 +16,7 @@
   </scm>
 
   <properties>
+    <xxl.version>2.3.1.1-SNAPSHOT</xxl.version>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
   </properties>
@@ -26,36 +27,36 @@
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-springboot-starter</artifactId>
-        <version>${project.version}</version>
+        <version>${xxl.version}</version>
       </dependency>
 
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-admin</artifactId>
-        <version>${project.version}</version>
+        <version>${xxl.version}</version>
       </dependency>
 
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-core</artifactId>
-        <version>${project.version}</version>
+        <version>${xxl.version}</version>
       </dependency>
 
       <!--  alarm plugin  -->
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-alarm-dingtalk</artifactId>
-        <version>${project.version}</version>
+        <version>${xxl.version}</version>
       </dependency>
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-alarm-email</artifactId>
-        <version>${project.version}</version>
+        <version>${xxl.version}</version>
       </dependency>
       <dependency>
         <groupId>com.souche.base-components</groupId>
         <artifactId>xxl-job-alarm-http</artifactId>
-        <version>${project.version}</version>
+        <version>${xxl.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
