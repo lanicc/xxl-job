@@ -102,6 +102,41 @@ public class JobAlarmer implements InitializingBean {
         return result;
     }
 
+    /**
+     * job alarm
+     *
+     */
+    public String testAlarm(XxlJobInfo info, List<XxlJobAlarm> jobAlarmList, XxlJobLog jobLog) {
+        if (jobAlarmList == null || jobAlarmList.isEmpty()) {
+            return StringUtils.EMPTY;
+        }
+
+        StringBuilder error = new StringBuilder();
+        XxlJobGroup jobGroup = XxlJobAdminConfig.getAdminConfig().getXxlJobGroupDao().load(info.getJobGroup());
+
+
+        for (XxlJobAlarm xxlAlarmConfig : jobAlarmList) {
+            try {
+                com.xxl.job.alarm.JobAlarm jobAlarm = jobAlarmMap.get(xxlAlarmConfig.getAlarmType());
+                if (jobAlarm != null) {
+                    Properties alarmConfigProperties = prepareAlarmConfig(xxlAlarmConfig);
+                    alarmConfigProperties.setProperty(AlarmConstants.ALARM_ERROR_THROW, "true");
+                    String message = jobAlarmMessageConverter.convert(xxlAlarmConfig.getAlarmType(), alarmConfigProperties, jobGroup, info, jobLog);
+                    try {
+                        if (!jobAlarm.doAlarm(alarmConfigProperties, message)) {
+                            error.append(xxlAlarmConfig.getAlarmType()).append(" send alarm message to ").append(xxlAlarmConfig.getAlarmTarget()).append(" failed\n");
+                        }
+                    } catch (Exception e) {
+                        error.append(xxlAlarmConfig.getAlarmType()).append(" send alarm message ").append(xxlAlarmConfig.getAlarmTarget()).append("  error: ").append(e.getMessage()).append("\n");
+                    }
+                }
+            } catch (Exception e) {
+                error.append(xxlAlarmConfig.getAlarmType()).append(" parse alarm message ").append(xxlAlarmConfig.getAlarmTarget()).append("  error: ").append(e.getMessage()).append("\n");
+            }
+        }
+        return error.toString();
+    }
+
 
     private Properties prepareAlarmConfig(XxlJobAlarm xxlJobAlarm) throws IOException {
         Properties config = new Properties();

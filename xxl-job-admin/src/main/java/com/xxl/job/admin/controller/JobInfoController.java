@@ -1,12 +1,10 @@
 package com.xxl.job.admin.controller;
 
 import com.xxl.job.admin.core.alarm.JobAlarmer;
+import com.xxl.job.admin.core.conf.XxlJobAdminConfig;
 import com.xxl.job.admin.core.cron.CronExpression;
 import com.xxl.job.admin.core.exception.XxlJobException;
-import com.xxl.job.admin.core.model.XxlJobAlarm;
-import com.xxl.job.admin.core.model.XxlJobGroup;
-import com.xxl.job.admin.core.model.XxlJobInfo;
-import com.xxl.job.admin.core.model.XxlJobUser;
+import com.xxl.job.admin.core.model.*;
 import com.xxl.job.admin.core.route.ExecutorRouteStrategyEnum;
 import com.xxl.job.admin.core.scheduler.MisfireStrategyEnum;
 import com.xxl.job.admin.core.scheduler.ScheduleTypeEnum;
@@ -27,9 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -196,6 +192,32 @@ public class JobInfoController {
 		}
 		return new ReturnT<List<String>>(result);
 
+	}
+
+	@RequestMapping("/alarmTest")
+	@ResponseBody
+	public ReturnT<Object> alarmTest(int id) {
+		XxlJobInfo xxlJobInfo = XxlJobAdminConfig.getAdminConfig().getXxlJobInfoDao().loadById(id);
+		if (xxlJobInfo == null) {
+			return new ReturnT<>(ReturnT.FAIL_CODE, I18nUtil.getString("system_unvalid"));
+		}
+		List<XxlJobAlarm> jobAlarms = XxlJobAdminConfig.getAdminConfig().getXxlJobAlarmDao().findByJobId(id);
+		if (jobAlarms == null || jobAlarms.isEmpty()) {
+			return new ReturnT<>(ReturnT.FAIL_CODE, "没有报警配置");
+		}
+		XxlJobLog xxlJobLog = new XxlJobLog();
+		xxlJobLog.setJobId(id);
+		xxlJobLog.setTriggerCode(500);
+		xxlJobLog.setTriggerTime(new Date());
+		xxlJobLog.setTriggerMsg("test message");
+		xxlJobLog.setJobGroup(xxlJobInfo.getJobGroup());
+		xxlJobLog.setHandleCode(500);
+		String alarmErrorMessage = jobAlarmer.testAlarm(xxlJobInfo, jobAlarms, xxlJobLog);
+
+		if (StringUtils.isNotBlank(alarmErrorMessage)) {
+			return new ReturnT<>(alarmErrorMessage.split("\n"));
+		}
+		return new ReturnT<>(ReturnT.SUCCESS_CODE, I18nUtil.getString("system_success"));
 	}
 
 }

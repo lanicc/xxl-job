@@ -41,6 +41,8 @@ public class HttpSender {
     private final List<Pair<String, String>> headers;
     private final String urls;
 
+    private final boolean errorThrow;
+
     public HttpSender(Properties config) {
         urls = config.getProperty(AlarmConstants.ALARM_TARGET);
         String headersStr = config.getProperty(HttpConstants.HTTP_HEADERS);
@@ -55,6 +57,9 @@ public class HttpSender {
         } else {
             headers = Collections.emptyList();
         }
+
+        errorThrow = Boolean.parseBoolean(config.getProperty(AlarmConstants.ALARM_ERROR_THROW));
+
     }
 
     public boolean sendMsg(String message) {
@@ -77,6 +82,9 @@ public class HttpSender {
                 }
             } catch (Exception e) {
                 logger.error("Http send msg :{} failed", message, e);
+                if (errorThrow) {
+                    throw new RuntimeException(e.getMessage());
+                }
             }
         }
         return false;

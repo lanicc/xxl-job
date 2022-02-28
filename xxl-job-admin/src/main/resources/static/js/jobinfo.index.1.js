@@ -152,6 +152,7 @@ $(function() {
                                     '       <li><a href="'+ logHref +'">'+ I18n.jobinfo_opt_log +'</a></li>\n' +
                                     '       <li><a href="javascript:void(0);" class="job_registryinfo" >' + I18n.jobinfo_opt_registryinfo + '</a></li>\n' +
 									job_next_time_html +
+                                    '       <li><a href="javascript:void(0);" onclick="testAlarm(' + row.id + ')" >' + I18n.jobindo_opt_alarm_test + '</a></li>\n' +
                                     '       <li class="divider"></li>\n' +
                                     codeBtn +
                                     start_stop_div +
@@ -822,4 +823,42 @@ function appendAlarmConfig(alarmConfig) {
 	html += "</div>";
 	alarmConfigIndex++;
 	return html
+}
+
+
+function testAlarm(id) {
+	$.ajax({
+		type : 'POST',
+		url : base_url + "/jobinfo/alarmTest",
+		data: {
+			id: id
+		},
+		dataType : "json",
+		success : function(data){
+			if (data.code != 200) {
+				layer.open({
+					title: I18n.jobinfo_opt_alarm_test ,
+					btn: [ I18n.system_ok ],
+					content: data.msg
+				});
+			} else {
+				var html = '<ul>';
+				if (data.code == 200 && data.content) {
+					for (var index in data.content) {
+						html += '<li>' + data.content[index] + '</li>';
+					}
+					html += '</ul>';
+				} else {
+					html = I18n.system_success;
+				}
+
+
+				layer.open({
+					title: I18n.jobinfo_opt_alarm_test ,
+					btn: [ I18n.system_ok ],
+					content: html
+				});
+			}
+		}
+	});
 }

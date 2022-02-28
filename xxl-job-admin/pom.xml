@@ -75,6 +75,25 @@
 		</dependency>
 
     <dependency>
+      <groupId>com.souche.base-components</groupId>
+      <artifactId>xxl-job-alarm-dingtalk</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.souche.base-components</groupId>
+      <artifactId>xxl-job-alarm-http</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.souche.base-components</groupId>
+      <artifactId>xxl-job-alarm-email</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>

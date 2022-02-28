@@ -31,6 +31,9 @@ public class EmailSender {
 
     private final String[] receivers;
 
+    private final boolean errorThrow;
+
+
     public EmailSender(Properties config) {
         subject = config.getProperty(EmailConstants.EMAIL_SUBJECT);
         host = config.getProperty(EmailConstants.EMAIL_HOST);
@@ -45,6 +48,8 @@ public class EmailSender {
         } else {
             throw new IllegalArgumentException("email alarm receivers cannot be empty");
         }
+
+        errorThrow = Boolean.parseBoolean(config.getProperty(AlarmConstants.ALARM_ERROR_THROW));
     }
 
     public boolean sendMsg(String message) {
@@ -71,6 +76,9 @@ public class EmailSender {
             return true;
         } catch (EmailException e) {
             e.printStackTrace();
+            if (errorThrow) {
+                throw new RuntimeException(e.getMessage());
+            }
         }
         return false;
     }

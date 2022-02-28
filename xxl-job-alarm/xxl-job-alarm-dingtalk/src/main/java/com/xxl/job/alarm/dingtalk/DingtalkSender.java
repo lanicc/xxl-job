@@ -46,6 +46,8 @@ public final class DingtalkSender {
     private final String atUserIds;
     private final boolean atAll;
 
+    private final boolean errorThrow;
+
     public DingtalkSender(Properties config) {
         url = config.getProperty(DingtalkConstants.DINGTALK_WEBHOOK);
         keyword = config.getProperty(DingtalkConstants.DINGTALK_KEYWORD);
@@ -53,6 +55,7 @@ public final class DingtalkSender {
         atMobiles = config.getProperty(AlarmConstants.ALARM_TARGET);
         atUserIds = config.getProperty(DingtalkConstants.DINGTALK_AT_USERIDS);
         atAll = Boolean.parseBoolean(config.getProperty(DingtalkConstants.DINGTALK_AT_ALL));
+        errorThrow = Boolean.parseBoolean(config.getProperty(AlarmConstants.ALARM_ERROR_THROW));
     }
 
     private static HttpPost constructHttpPost(String url, String msg) {
@@ -99,6 +102,9 @@ public final class DingtalkSender {
             return checkSendDingTalkSendMsgResult(resp);
         } catch (IOException e) {
             logger.error("Ding Talk send msg :{} failed", msg, e);
+            if (errorThrow) {
+                throw new RuntimeException(e.getMessage());
+            }
             return false;
         }
     }
@@ -173,6 +179,9 @@ public final class DingtalkSender {
             sign = URLEncoder.encode(new String(Base64.encodeBase64(signData)), "UTF-8");
         } catch (Exception e) {
             logger.error("generate sign error, message", e);
+            if (errorThrow) {
+                throw new RuntimeException(e.getMessage());
+            }
         }
         return url + "&timestamp=" + timestamp + "&sign=" + sign;
     }
